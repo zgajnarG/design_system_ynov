@@ -15,7 +15,7 @@ export class ChartComponent implements AfterViewInit {
   @Input() maxY: number = 100;
   @Input() unitsPerTickX: number = 10;
   @Input() unitsPerTickY: number =10;
-  @Input() data : DataChart[] = [];
+  @Input() data : DataChart[] =[];
 
   public context: CanvasRenderingContext2D | undefined;
 
@@ -196,7 +196,9 @@ export class ChartComponent implements AfterViewInit {
       unitsPerTickX: this.unitsPerTickX,
       unitsPerTickY: this.unitsPerTickY
    });
-    this.drawLine(this.data, "blue", 3);
+   for(let i = 0; i < this.data.length; i++){
+    this.drawLine(this.data[i].data, this.data[i].color, 3);
+   }
   }
   clear() {
     this.context?.clearRect(0, 0, this.canvas?.nativeElement.width, this.canvas?.nativeElement.height);

@@ -1,4 +1,9 @@
 export default interface DataChart {
-  x :number;
-  y :number;
+  color: string;
+  data : DataChartCoordonate[];
+}
+
+export interface DataChartCoordonate {
+  x: number;
+  y: number;
 }
