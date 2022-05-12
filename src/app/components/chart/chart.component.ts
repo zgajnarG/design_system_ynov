@@ -220,5 +220,9 @@ export class ChartComponent implements AfterViewInit {
     context.scale(1, -1);
   };
 
+  clear() {
+    this.context?.clearRect(0, 0, this.canvas?.nativeElement.width, this.canvas?.nativeElement.height);
+  }
+
 }
 
