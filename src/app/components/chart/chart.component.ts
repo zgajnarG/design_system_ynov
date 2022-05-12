@@ -29,43 +29,10 @@ export class ChartComponent implements AfterViewInit {
   constructor() { }
 
   ngAfterViewInit(): void {
-    this.LineChart({
-      minX: this.minX,
-      minY: this.minY,
-      maxX: this.maxX,
-      maxY: this.maxY,
-      unitsPerTickX: this.unitsPerTickX,
-      unitsPerTickY: this.unitsPerTickY
-   });
-    const data = [{
-        x: 0,
-        y: 0
-    }, {
-        x: 20,
-        y: 10
-    }, {
-        x: 40,
-        y: 15
-    }, {
-        x: 60,
-        y: 40
-    }, {
-        x: 80,
-        y: 60
-    }, {
-        x: 100,
-        y: 50
-    }, {
-        x: 120,
-        y: 85
-    }, {
-        x: 140,
-        y: 100
-    }];
-    this.drawLine(this.data, "blue", 3);
+    this.create();
   }
 
-  LineChart(con :any) {
+  private LineChart(con :any) {
     // user defined properties
     const minX = con.minX;
     const minY = con.minY;
@@ -101,7 +68,7 @@ export class ChartComponent implements AfterViewInit {
     this.drawYAxis( { axisColor , numYTicks ,tickSize, font , maxY , padding});
 }
 
-  getLongestValueWidth( data :any) {
+  private getLongestValueWidth( data :any) {
     const context = this.context as CanvasRenderingContext2D;
     context.font = data.font;
       let longestValueWidth = 0;
@@ -112,7 +79,7 @@ export class ChartComponent implements AfterViewInit {
       return longestValueWidth;
   };
 
-  drawXAxis( data :any ) {
+  private drawXAxis( data :any ) {
       const context = this.context as CanvasRenderingContext2D;
       const height = this.height ? this.height : 0;
       context.save();
@@ -147,7 +114,7 @@ export class ChartComponent implements AfterViewInit {
       context.restore();
   };
 
-  drawYAxis ( data :any ) {
+  private drawYAxis ( data :any ) {
       const context = this.context as CanvasRenderingContext2D;
       const height = this.height ? this.height : 0;
       context.save();
@@ -184,7 +151,7 @@ export class ChartComponent implements AfterViewInit {
       context.restore();
   };
 
-  drawLine(data : any , color : string , width : number) {
+  private drawLine(data : any , color : string , width : number) {
       const context = this.context as CanvasRenderingContext2D;
       context.save();
       this.transformContext();
@@ -220,6 +187,17 @@ export class ChartComponent implements AfterViewInit {
     context.scale(1, -1);
   };
 
+  create(){
+    this.LineChart({
+      minX: this.minX,
+      minY: this.minY,
+      maxX: this.maxX,
+      maxY: this.maxY,
+      unitsPerTickX: this.unitsPerTickX,
+      unitsPerTickY: this.unitsPerTickY
+   });
+    this.drawLine(this.data, "blue", 3);
+  }
   clear() {
     this.context?.clearRect(0, 0, this.canvas?.nativeElement.width, this.canvas?.nativeElement.height);
   }
