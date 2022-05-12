@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import DataChart from 'src/app/models/data-chart';
 
 @Component({
   selector: 'ynov-chart',
@@ -8,8 +9,13 @@ import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '
 export class ChartComponent implements AfterViewInit {
 
   @ViewChild('myCanvas', {static: false}) canvas: ElementRef | undefined;
-  @Input() height: number | undefined;
-  @Input()width : number | undefined;
+  @Input() minX: number = 0;
+  @Input() minY: number = 0;
+  @Input() maxX: number = 140;
+  @Input() maxY: number = 100;
+  @Input() unitsPerTickX: number = 10;
+  @Input() unitsPerTickY: number =10;
+  @Input() data : DataChart[] = [];
 
   public context: CanvasRenderingContext2D | undefined;
 
@@ -18,16 +24,18 @@ export class ChartComponent implements AfterViewInit {
   pointRadius = 5;
   x= 0;
   y = 0;
+  height = 0;
+
   constructor() { }
 
   ngAfterViewInit(): void {
     this.LineChart({
-      minX: 0,
-      minY: 0,
-      maxX: 140,
-      maxY: 100,
-      unitsPerTickX: 10,
-      unitsPerTickY: 10
+      minX: this.minX,
+      minY: this.minY,
+      maxX: this.maxX,
+      maxY: this.maxY,
+      unitsPerTickX: this.unitsPerTickX,
+      unitsPerTickY: this.unitsPerTickY
    });
     const data = [{
         x: 0,
@@ -54,7 +62,7 @@ export class ChartComponent implements AfterViewInit {
         x: 140,
         y: 100
     }];
-    this.drawLine(data, "blue", 3);
+    this.drawLine(this.data, "blue", 3);
   }
 
   LineChart(con :any) {
