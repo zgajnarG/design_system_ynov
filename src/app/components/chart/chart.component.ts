@@ -70,7 +70,7 @@ export class ChartComponent implements AfterViewInit {
     const padding = 10;
     const tickSize = 10;
     const axisColor = "#555";
-    const font = "12pt Calibri";
+    const font = "13pt Helvetica ";
 
     const fontHeight = 12;
 
@@ -186,8 +186,8 @@ export class ChartComponent implements AfterViewInit {
       context.beginPath();
       context.moveTo(data[0].x * this.scaleX, data[0].y * this.scaleY);
 
-      for (var n = 0; n < data.length; n++) {
-          var point = data[n];
+      for (let n = 0; n < data.length; n++) {
+          const point = data[n];
 
           // draw segment
           context.lineTo(point.x * this.scaleX, point.y * this.scaleY);
