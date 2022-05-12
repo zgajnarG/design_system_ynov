@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, SimpleChanges, ViewChild } from '@angular/core';
+import { Subject } from 'rxjs/internal/Subject';
 import DataChart from 'src/app/models/data-chart';
 
 @Component({
@@ -6,7 +7,7 @@ import DataChart from 'src/app/models/data-chart';
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.scss']
 })
-export class ChartComponent implements AfterViewInit {
+export class ChartComponent implements AfterViewInit , OnChanges , OnDestroy{
 
   @ViewChild('myCanvas', {static: false}) canvas: ElementRef | undefined;
   @Input() minX: number = 0;
@@ -26,11 +27,23 @@ export class ChartComponent implements AfterViewInit {
   y = 0;
   height = 0;
 
+  onChanges = new Subject<SimpleChanges>();
+
   constructor() { }
+  ngOnChanges(changes: SimpleChanges): void {
+    this.onChanges.next(changes);
+  }
 
   ngAfterViewInit(): void {
     this.create();
+    this.onChanges.subscribe((data:SimpleChanges)=>{
+        this.update();
+    });
   }
+  ngOnDestroy(){
+    this.onChanges.complete();
+  }
+
 
   private LineChart(con :any) {
     // user defined properties
@@ -202,6 +215,11 @@ export class ChartComponent implements AfterViewInit {
   }
   clear() {
     this.context?.clearRect(0, 0, this.canvas?.nativeElement.width, this.canvas?.nativeElement.height);
+  }
+
+  update(){
+    this.clear();
+    this.create();
   }
 
 }

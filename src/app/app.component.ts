@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { ChartComponent } from './components/chart/chart.component';
 import DataChart from './models/data-chart';
 
 @Component({
@@ -8,6 +9,8 @@ import DataChart from './models/data-chart';
 })
 export class AppComponent {
   title = 'design_system';
+
+  @ViewChild(ChartComponent) canvas: ChartComponent| undefined;
 
   data : DataChart[]=[{
     color : "red",
@@ -70,4 +73,8 @@ export class AppComponent {
     ]
   }
 ];
+
+refesh(){
+  this.data = [this.data[0]];
+}
 }
